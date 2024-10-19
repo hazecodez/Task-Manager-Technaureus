@@ -21,3 +21,75 @@ export async function userRegister(formdata) {
     console.log("Error user signup : ", error);
   }
 }
+
+export async function userProfile() {
+  try {
+    const response = await axiosInstance.get("/profile");
+    return response;
+  } catch (error) {
+    console.log("Error fetching user profile : ", error);
+  }
+}
+
+export async function userTasks() {
+  try {
+    const response = await axiosInstance.get("/tasks");
+    return response;
+  } catch (error) {
+    console.log("Error fetching tasks list : ", error);
+  }
+}
+
+export async function createTask(data) {
+  try {
+    const response = await axiosInstance.post("/tasks", data);
+    return response;
+  } catch (error) {
+    console.log("Error creating new task : ", error);
+  }
+}
+
+export async function taskDetails(taskId) {
+  try {
+    const response = await axiosInstance.get(`/tasks/${taskId}`);
+    return response;
+  } catch (error) {
+    console.log("Error fetching task details : ", error);
+  }
+}
+
+export async function updateTask(data, taskId) {
+  try {
+    const response = await axiosInstance.put(`/tasks/${taskId}`, data);
+    return response;
+  } catch (error) {
+    console.log("Error updating task : ", error);
+  }
+}
+
+export async function deleteTask(taskId) {
+  try {
+    const response = await axiosInstance.delete(`/tasks/${taskId}`);
+    return response;
+  } catch (error) {
+    console.log("Error deleting task : ", error);
+  }
+}
+
+export async function statusFilter(task_status) {
+  try {
+    const response = await axiosInstance.get(`/tasks/status/${task_status}`);
+    return response;
+  } catch (error) {
+    console.log("Error filtering tasks : ", error);
+  }
+}
+
+export async function userLogout(refresh) {
+  try {
+    const response = await axiosInstance.post("/logout", refresh);
+    return response;
+  } catch (error) {
+    console.log("Error logout user : ", error);
+  }
+}
