@@ -93,3 +93,11 @@ export async function userLogout(refresh) {
     console.log("Error logout user : ", error);
   }
 }
+
+export async function refreshToken(refresh) {
+  try {
+    await axiosInstance.post("/token/refresh", refresh);
+  } catch (error) {
+    console.log("Error refreshing token : ", error);
+  }
+}
