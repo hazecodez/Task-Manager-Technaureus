@@ -15,9 +15,42 @@ import {
 
 import { BsPersonRaisedHand } from "react-icons/bs";
 import { SiGnuprivacyguard } from "react-icons/si";
+import Signup from "./Signup";
+import { useFormik } from "formik";
+import { LoginSchema } from "../Validations/LoginSchema";
+import { userLogin } from "../Services/Apis";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
-export default function CheckoutForm() {
+export default function Login() {
   const [type, setType] = useState("login");
+  const navigate = useNavigate();
+
+  const { errors, handleBlur, handleChange, handleSubmit, values, touched } =
+    useFormik({
+      initialValues: {
+        username: "",
+        password: "",
+      },
+      validationSchema: LoginSchema,
+      onSubmit: Submission,
+    });
+
+  async function Submission(formData) {
+    try {
+      const response = await userLogin(formData);
+      if (response?.data.access) {
+        toast.success("Successfully logged");
+        localStorage.setItem("token", response.data.access);
+        localStorage.setItem("refresh", response.data.refresh);
+        navigate("/");
+      } else {
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="flex items-center h-screen justify-center bg-gray-500 ">
@@ -64,7 +97,7 @@ export default function CheckoutForm() {
               }}
             >
               <TabPanel value="login" className="p-0">
-                <form className="mt-12 flex flex-col gap-4">
+                <form onSubmit={handleSubmit} className="mt-12 flex flex-col gap-4">
                   <div>
                     <Typography
                       variant="paragraph"
@@ -82,13 +115,20 @@ export default function CheckoutForm() {
                       Username
                     </Typography>
                     <Input
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.username}
                       type="text"
+                      name="username"
                       placeholder="john doe"
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                       labelProps={{
                         className: "before:content-none after:content-none",
                       }}
                     />
+                    {errors.username && touched.username && (
+                      <p className="text-red-500 text-xs">{errors.username}</p>
+                    )}
                   </div>
 
                   <div>
@@ -100,14 +140,22 @@ export default function CheckoutForm() {
                       Password
                     </Typography>
                     <Input
-                      placeholder="name@mail.com"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.password}
+                      name="password"
+                      type="password"
+                      placeholder="nobodyknows76"
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                       labelProps={{
                         className: "before:content-none after:content-none",
                       }}
                     />
+                    {errors.password && touched.password && (
+                      <p className="text-red-500 text-xs">{errors.password}</p>
+                    )}
                   </div>
-                  <Button size="lg">Log In</Button>
+                  <Button type="submit" size="lg">Log In</Button>
                   <Typography
                     variant="small"
                     color="gray"
@@ -118,119 +166,8 @@ export default function CheckoutForm() {
                   </Typography>
                 </form>
               </TabPanel>
-              <TabPanel value="signup" className="p-0">
-                <form className="mt-12 flex flex-col gap-4">
-                  <div>
-                    <div className="md:flex md:flex-row md:justify-between">
-                      <div>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="mb-2 font-medium"
-                        >
-                          First Name
-                        </Typography>
-                        <Input
-                          type="text"
-                          name="first_name"
-                          placeholder="First Name"
-                          className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                          labelProps={{
-                            className: "before:content-none after:content-none",
-                          }}
-                        />
-                      </div>
-                      <div>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="mb-2 font-medium"
-                        >
-                          Last Name
-                        </Typography>
-                        <Input
-                          type="text"
-                          placeholder="Last Name"
-                          name="last_name"
-                          className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                          labelProps={{
-                            className: "before:content-none after:content-none",
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="mb-2 font-medium"
-                    >
-                      Email
-                    </Typography>
-                    <Input
-                      type="email"
-                      placeholder="name@mail.com"
-                      name="email"
-                      className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                      labelProps={{
-                        className: "before:content-none after:content-none",
-                      }}
-                    />
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="mb-2 font-medium"
-                    >
-                      Username
-                    </Typography>
-                    <Input
-                      type="text"
-                      name="username"
-                      className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                      labelProps={{
-                        className: "before:content-none after:content-none",
-                      }}
-                    />
-                    <div className="md:flex md:flex-row md:justify-between">
-                      <div>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="mb-2 font-medium"
-                        >
-                          Password
-                        </Typography>
-                        <Input
-                          type="password"
-                          name="password"
-                          className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                          labelProps={{
-                            className: "before:content-none after:content-none",
-                          }}
-                        />
-                      </div>
-                      <div>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="mb-2 font-medium"
-                        >
-                          Confirm Password
-                        </Typography>
-                        <Input
-                          type="password"
-                          name="confirm_password"
-                          className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                          labelProps={{
-                            className: "before:content-none after:content-none",
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <Button size="lg">Register</Button>
-                </form>
-              </TabPanel>
+              {/* Signup Form component */}
+              <Signup />
             </TabsBody>
           </Tabs>
         </CardBody>
