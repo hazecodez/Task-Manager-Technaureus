@@ -97,7 +97,10 @@ export default function Login() {
               }}
             >
               <TabPanel value="login" className="p-0">
-                <form onSubmit={handleSubmit} className="mt-12 flex flex-col gap-4">
+                <form
+                  onSubmit={handleSubmit}
+                  className="mt-12 flex flex-col gap-4"
+                >
                   <div>
                     <Typography
                       variant="paragraph"
@@ -155,7 +158,9 @@ export default function Login() {
                       <p className="text-red-500 text-xs">{errors.password}</p>
                     )}
                   </div>
-                  <Button type="submit" size="lg">Log In</Button>
+                  <Button type="submit" size="lg">
+                    Log In
+                  </Button>
                   <Typography
                     variant="small"
                     color="gray"

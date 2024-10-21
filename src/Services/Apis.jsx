@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://82.180.145.66:8000/api/v1",
+  baseURL: "http://82.180.145.66/api/v1",
 });
 
 axiosInstance.interceptors.request.use(
@@ -21,7 +21,7 @@ axiosInstance.interceptors.request.use(
 
 export async function userLogin(formdata) {
   try {
-    const response = await axiosInstance.post("/login", formdata);
+    const response = await axiosInstance.post("/login/", formdata);
     return response;
   } catch (error) {
     console.log("Error login user : ", error);
@@ -48,23 +48,23 @@ export async function userProfile() {
 
 export async function userTasks() {
   try {
-    const response = await axiosInstance.get("/tasks");
+    const response = await axiosInstance.get("/tasks/");
     return response;
   } catch (error) {
     console.log("Error fetching tasks list : ", error);
   }
 }
 
-export async function createTask(data) {
+export async function userCreateTask(data) {
   try {
-    const response = await axiosInstance.post("/tasks", data);
+    const response = await axiosInstance.post("/tasks", {data});
     return response;
   } catch (error) {
     console.log("Error creating new task : ", error);
   }
 }
 
-export async function taskDetails(taskId) {
+export async function userTaskDetails(taskId) {
   try {
     const response = await axiosInstance.get(`/tasks/${taskId}`);
     return response;
@@ -73,8 +73,10 @@ export async function taskDetails(taskId) {
   }
 }
 
-export async function updateTask(data, taskId) {
+export async function userUpdateTask(data, taskId) {
   try {
+    console.log(taskId);
+    
     const response = await axiosInstance.put(`/tasks/${taskId}`, data);
     return response;
   } catch (error) {
@@ -82,7 +84,7 @@ export async function updateTask(data, taskId) {
   }
 }
 
-export async function deleteTask(taskId) {
+export async function userDeleteTask(taskId) {
   try {
     const response = await axiosInstance.delete(`/tasks/${taskId}`);
     return response;
