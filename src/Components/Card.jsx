@@ -11,7 +11,7 @@ export default function Card({
   detailsModal,
   deleteModal,
   setReload,
-  reload
+  reload,
 }) {
   async function updateTask(task, taskId) {
     const updatedTask = {
@@ -22,7 +22,7 @@ export default function Card({
     };
     const response = await userUpdateTask(updatedTask, taskId);
     if (response.data) {
-      setReload(!reload)
+      setReload(!reload);
       toast.success(`${task.title} updated`);
     } else {
       toast.error(`Error creating new task`);
@@ -43,7 +43,7 @@ export default function Card({
             >
               <div className="text" onClick={() => detailsModal(task)}>
                 <span>{task.title}</span>
-                <p className="subtitle text-white">{task.description}</p>
+                <p className="subtitle text-white line-clamp-3">{task.description}</p>
               </div>
               <div className="icons">
                 <a className="btn" onClick={() => editFormModal(task)}>
@@ -62,30 +62,6 @@ export default function Card({
               </div>
             </div>
           </>
-
-          //       <div
-          //         key={index}
-          //         className={`${task.status === true ? "bg-green-100" : "bg-yellow-100"} cursor-pointer overflow-hidden relative sm:w-76 lg:w-72
-          //      transition-all duration-500 hover:translate-y-2 w-full h-44 rounded-lg shadow-xl flex flex-col
-          //  items-center justify-evenly gap-2 p-2 before:absolute before:w-full hover:before:top-0 before:duration-500
-          //   before:-top-1 before:h-1 before:bg-gray-700`}
-          //       >
-          //         <div className="flex justify-evenly w-full text-3xl">
-          //           <RiEditFill
-          //             className="hover:text-gray-800"
-          //             onClick={() => editFormModal(task)}
-          //           />
-          //           <input type="checkbox" className="w-36" checked={task.status}/>
-          //           <MdDelete
-          //             className="hover:text-gray-800"
-          //             onClick={() => deleteModal(task.id)}
-          //           />
-          //         </div>
-          //         <div onClick={() => detailsModal(task)} className="flex flex-col justify-center items-center">
-          //           <span className="font-bold text-3xl">{task.title}</span>
-          //           <p className="truncate max-w-[26ch] text-xl p-4">{task.description}</p>
-          //         </div>
-          //       </div>
         ))}
       </div>
     </>
@@ -98,5 +74,5 @@ Card.propTypes = {
   detailsModal: PropTypes.func.isRequired,
   deleteModal: PropTypes.func.isRequired,
   setReload: PropTypes.func.isRequired,
-  reload: PropTypes.bool.isRequired
+  reload: PropTypes.bool.isRequired,
 };

@@ -128,16 +128,6 @@ export default function TaskList() {
           <FaPlus className="text-xl" />
           Create Task
         </Button>
-        {/* <Button
-          onClick={filteredTasks}
-          className="flex gap-4 text-md bg-[#dfddd5] hover:bg-gray-700 text-black hover:text-white"
-        >
-          {" "}
-          <FaFilter className="text-xl" />
-          Filter
-          
-        </Button> */}
-
         <Menu
           open={isFilterOpen}
           handler={setIsFilterOpen}
@@ -205,8 +195,9 @@ export default function TaskList() {
                   </div>
                 </MenuItem>
               </a>
-              {/* <a onClick={()=> {
+              <a onClick={()=> {
                 setFilterStatus("")
+                setReload(!reload)
               }}>
                 <MenuItem className="flex items-center gap-3 rounded-lg">
                   <div className="flex items-center justify-center rounded-lg !bg-blue-gray-50 p-2 ">
@@ -222,7 +213,7 @@ export default function TaskList() {
                     </Typography>
                   </div>
                 </MenuItem>
-              </a> */}
+              </a>
             </ul>
           </MenuList>
         </Menu>
