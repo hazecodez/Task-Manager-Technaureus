@@ -1,7 +1,6 @@
 .card {
   height: 200px;
   border-radius: 15px;
-  
   display: flex;
   flex-direction: column;
   position: relative;
@@ -41,7 +40,6 @@
   display: flex;
   justify-items: center;
   align-items: center;
-  width: 250px;
   border-radius: 0px 0px 15px 15px;
   overflow: hidden;
   background-color: rgba(247, 234, 234, 0.589);
@@ -49,8 +47,7 @@
 
 .btn {
   border: none;
-  width: 84px;
-  height: 35px;
+  height: 50px;
   background-color: rgba(247, 234, 234, 0.589);
   display: flex;
   align-items: center;
@@ -69,56 +66,3 @@
   filter: blur(0rem);
 }
 
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 500px) {
-  .icons {
-    width: 650px;
-    border-radius: 0px 0px 15px 15px;
-  }
-  .btn {
-    width: 150px;
-    height: 50px;
-  }
-  .text {
-    font-size: 1.8em;
-  }
-}
-
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
-  .icons {
-    width: 350px;
-    border-radius: 0px 0px 15px 15px;
-  }
-  .btn {
-    width: 94px;
-    height: 40px;
-  }
-  .text {
-    font-size: 1.5em;
-  }
-}
-
-/* Large devices (laptops/desktops, 1024px and up) */
-/* @media only screen and (min-width: 600px) {
-  .icons {
-    width: 250px;
-    border-radius: 0px 0px 15px 15px;
-  }
-  .btn {
-    width: 24px;
-    height: 40px;
-  }
-} */
-
-/* Extra large devices (large desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
-  .icons {
-    width: 280px;
-    border-radius: 0px 0px 15px 15px;
-  }
-  .btn {
-    width: 94px;
-    height: 40px;
-  }
-}

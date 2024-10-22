@@ -26,7 +26,6 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // Check if the error is due to expired access token and the original request has not been retried yet
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
@@ -39,17 +38,13 @@ axiosInstance.interceptors.response.use(
           });
 
           const newAccessToken = response.data.access;
-
-          // Update the new token in local storage
           localStorage.setItem("token", newAccessToken);
           localStorage.setItem("refresh", response.data.refresh);
 
-          // Update the Authorization header with the new access token
           axiosInstance.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${newAccessToken}`;
 
-          // Retry the original request with the new token
           originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
           return axiosInstance(originalRequest);
         } catch (refreshError) {

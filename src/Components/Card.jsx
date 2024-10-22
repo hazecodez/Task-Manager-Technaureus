@@ -45,18 +45,18 @@ export default function Card({
                 <span>{task.title}</span>
                 <p className="subtitle text-white line-clamp-3">{task.description}</p>
               </div>
-              <div className="icons">
-                <a className="btn" onClick={() => editFormModal(task)}>
+              <div className="icons flex w-full justify-evenly">
+                <a className="btn w-full" onClick={() => editFormModal(task)}>
                   <RiEditFill className="hover:text-gray-800 text-2xl" />
                 </a>
-                <a className="btn" onClick={() => updateTask(task, task.id)}>
+                <a className="btn w-full" onClick={() => updateTask(task, task.id)}>
                   <input
                     type="checkbox"
                     checked={task.status}
                     className="appearance-none w-5 h-5 bg-gray-200 border-2 border-gray-400 rounded-md checked:bg-green-500 checked:border-green-800"
                   />
                 </a>
-                <a className="btn" onClick={() => deleteModal(task.id)}>
+                <a className="btn w-full" onClick={() => deleteModal(task.id)}>
                   <MdDelete className="hover:text-gray-800 text-2xl" />
                 </a>
               </div>
