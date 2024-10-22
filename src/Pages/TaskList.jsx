@@ -67,18 +67,6 @@ export default function TaskList() {
     setLoading(false);
   }
 
-  // async function deleteTask(task_id) {
-  //   setLoading(true);
-  //   const response = await userDeleteTask(task_id);
-  //   if (response) {
-  //     toast.success("task deleted");
-  //     setTasks(tasks.filter((task) => task.id !== task_id));
-  //   } else {
-  //     toast.error(`Error deleting task`);
-  //   }
-  //   setLoading(false);
-  //   setDeleteModal(false);
-  // }
 
   async function showEditModal(task) {
     setEditModal(true);
