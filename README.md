@@ -52,7 +52,3 @@ Start the frontend server
 - TailwindCSS: Utility-first CSS framework for styling.
 - Axios: For making API requests.
 - React Router Dom: For handling navigation between pages.
-
-## Demo Video
-
-You can watch the demo video [here](public/assets/demo.gif).
