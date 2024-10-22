@@ -17,15 +17,15 @@ export default function DeleteModal({ setLoading, task_id, setDeleteModal }) {
   }
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div className="group select-none w-[250px] flex flex-col p-4 relative items-center justify-center bg-gray-800 border border-gray-800 shadow-lg rounded-2xl">
+    <div className="fixed inset-0 flex items-center justify-center ">
+      <div className="group select-none w-[250px] flex flex-col p-4 relative items-center justify-center bg-[#8b0000] border border-gray-800 shadow-lg rounded-2xl">
         <div>
-          <div className="text-center p-3 flex-auto justify-center items-center">
+          <div className="text-center p-3 flex flex-col justify-center items-center">
             <RiDeleteBinLine className="text-2xl text-red-600" />
             <h2 className="text-xl font-bold py-4 text-gray-200">
               Are you sure?
             </h2>
-            <p className="font-bold text-sm text-gray-500 px-2">
+            <p className="font-bold text-sm text-white px-2">
               Do you really want to continue? This process cannot be undone.
             </p>
           </div>

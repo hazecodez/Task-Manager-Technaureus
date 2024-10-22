@@ -1,12 +1,11 @@
 import { Button, TabPanel, Typography, Input } from "@material-tailwind/react";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
 import { SignupSchema } from "../Validations/LoginSchema";
 import { userRegister } from "../Services/Apis";
 import { toast } from "sonner";
+import PropTypes from "prop-types";
 
-export default function Signup() {
-  const navigate = useNavigate();
+export default function Signup({setType}) {
 
   const { errors, handleBlur, handleChange, handleSubmit, values, touched } =
     useFormik({
@@ -27,7 +26,7 @@ export default function Signup() {
       const response = await userRegister(formData);
       if (response?.data.user) {
         toast.success(response?.data.message);
-        navigate("/login");
+        setType("login")
       } else {
         console.log(response);
       }
@@ -190,4 +189,9 @@ export default function Signup() {
       </form>
     </TabPanel>
   );
+}
+
+
+Signup.propTypes = {
+  setType: PropTypes.func.isRequired
 }

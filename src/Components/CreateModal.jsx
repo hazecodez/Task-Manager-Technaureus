@@ -2,8 +2,9 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { toast } from "sonner";
 import { userCreateTask } from "../Services/Apis";
+import { Button } from "@material-tailwind/react";
 
-export default function CreateModal({ setLoading, setCreateModal }) {
+export default function CreateModal({ setLoading, setCreateModal, loading }) {
   const [title, setTitle] = useState("");
   const [description, setDesc] = useState("");
 
@@ -17,7 +18,7 @@ export default function CreateModal({ setLoading, setCreateModal }) {
       const response = await userCreateTask({ title, description });
       if (response.data) {
         toast.success(`New task created`);
-        setCreateModal(false)
+        setCreateModal(false);
       } else {
         toast.error(`Error creating new task`);
       }
@@ -25,9 +26,9 @@ export default function CreateModal({ setLoading, setCreateModal }) {
     }
   }
   return (
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div className="w-96 flex flex-col md:w-[600px] p-5 bg-white rounded-lg font-mono">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+    <div className="fixed inset-0 flex items-center justify-center ">
+      <div className="w-96 flex flex-col md:w-[600px] p-5 bg-[rgb(2,48,32)] border-2 border-white rounded-lg font-mono">
+        <label className="block text-white text-sm font-bold mb-2">
           Title
         </label>
         <input
@@ -38,7 +39,7 @@ export default function CreateModal({ setLoading, setCreateModal }) {
           type="text"
           id="unique-input"
         />
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-white text-sm font-bold mb-2">
           Description
         </label>
         <textarea
@@ -50,18 +51,19 @@ export default function CreateModal({ setLoading, setCreateModal }) {
           id="unique-input"
           rows={6}
         />
-        <button
+        <Button
           onClick={() => setCreateModal(false)}
           className="bg-white mb-2 text-black px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-gray-900  rounded-full transition ease-in duration-300"
         >
           Cancel
-        </button>
-        <button
+        </Button>
+        <Button
+          loading={loading}
           onClick={createTask}
-          className="bg-gray-800 text-white hover:text-black hover:bg-transparent px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-gray-900  rounded-full transition ease-in duration-300"
+          className="bg-gray-800 text-white hover:text-black hover:bg-white px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-gray-900  rounded-full transition ease-in duration-300"
         >
           Confirm
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -70,4 +72,5 @@ export default function CreateModal({ setLoading, setCreateModal }) {
 CreateModal.propTypes = {
   setLoading: PropTypes.func.isRequired,
   setCreateModal: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };

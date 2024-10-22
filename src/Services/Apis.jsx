@@ -6,13 +6,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    if (
-      config &&
-      config.url !== "/login/" &&
-      config.url !== "/register/"
-      // && config.url !== "/logout/" &&
-      // config.url !== " /token/refresh/"
-    ) {
+    if (config && config.url !== `/register/` && config.url !== "/login/") {
       const token = localStorage.getItem("token");
       if (token) {
         config.headers["Authorization"] = `Bearer ${token}`;
@@ -79,7 +73,7 @@ export async function userLogin(formdata) {
 
 export async function userRegister(formdata) {
   try {
-    const response = await axiosInstance.post(" /register", formdata);
+    const response = await axiosInstance.post("/register/", formdata);
     return response;
   } catch (error) {
     console.log("Error user signup : ", error);

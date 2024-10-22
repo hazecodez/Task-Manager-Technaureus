@@ -29,11 +29,15 @@ export default function EditModal({
     }));
   };
   return (
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div className="w-96 flex flex-col md:w-[600px] p-5 bg-white rounded-lg font-mono">
+    <div className="fixed inset-0 flex items-center justify-center">
+      <div className={`w-96 flex flex-col md:w-[600px] p-5 border-2 shadow-xl ${
+                task.status === true
+                  ? "bg-[rgb(2,48,32)]"
+                  : "bg-[rgb(139,128,0)]"
+              } rounded-lg font-mono transition-colors duration-700`}>
         <div className="flex justify-end m-6">
           <input
-            className="peer w-8 h-8 "
+            className="peer w-8 h-8 appearance-none rounded-md border-2 checked:bg-white checked:border-green-800"
             id="tick"
             name="tick"
             type="checkbox"
@@ -41,7 +45,7 @@ export default function EditModal({
             onChange={(e) => handleInputChange("status", e.target.checked)}
           />
         </div>
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-white text-sm font-bold mb-2">
           Title
         </label>
         <input
@@ -52,7 +56,7 @@ export default function EditModal({
           type="text"
           id="unique-input"
         />
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-white text-sm font-bold mb-2">
           Description
         </label>
         <textarea
@@ -74,7 +78,7 @@ export default function EditModal({
         <Button
           loading={loading}
           onClick={updateTask}
-          className="bg-gray-800 text-white hover:text-black hover:bg-transparent px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-gray-900  rounded-full transition ease-in duration-300"
+          className="bg-gray-800 text-white hover:text-black hover:bg-white px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-gray-900  rounded-full transition ease-in duration-300"
         >
           Confirm
         </Button>

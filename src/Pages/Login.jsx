@@ -172,7 +172,7 @@ export default function Login() {
                 </form>
               </TabPanel>
               {/* Signup Form component */}
-              <Signup />
+              <Signup setType={setType}/>
             </TabsBody>
           </Tabs>
         </CardBody>
