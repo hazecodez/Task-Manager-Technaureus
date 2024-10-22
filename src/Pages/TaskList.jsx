@@ -131,6 +131,7 @@ export default function TaskList() {
           task={taskDetails}
           setTaskDetails={setTaskDetails}
           setLoading={setLoading}
+          loading={loading}
         />
       )}
 

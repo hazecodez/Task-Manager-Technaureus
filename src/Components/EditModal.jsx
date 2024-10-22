@@ -1,12 +1,14 @@
 import PropTypes from "prop-types";
 import { userUpdateTask } from "../Services/Apis";
 import { toast } from "sonner";
+import { Button } from "@material-tailwind/react";
 
 export default function EditModal({
   task,
   setEditModal,
   setTaskDetails,
   setLoading,
+  loading
 }) {
   async function updateTask() {
     setLoading(true);
@@ -62,18 +64,20 @@ export default function EditModal({
           id="unique-input"
           rows={6}
         />
-        <button
+        <Button
+        
           onClick={() => setEditModal(false)}
           className="bg-white mb-2 text-black px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-gray-900  rounded-full transition ease-in duration-300"
         >
           Cancel
-        </button>
-        <button
+        </Button>
+        <Button
+          loading={loading}
           onClick={updateTask}
           className="bg-gray-800 text-white hover:text-black hover:bg-transparent px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-gray-900  rounded-full transition ease-in duration-300"
         >
           Confirm
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -84,4 +88,5 @@ EditModal.propTypes = {
   setEditModal: PropTypes.func.isRequired,
   setTaskDetails: PropTypes.func.isRequired,
   setLoading: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 };
