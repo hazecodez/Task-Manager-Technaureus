@@ -4,7 +4,6 @@ import {
   statusFilter,
   userTasks,
   userTaskDetails,
-  userDeleteTask,
 } from "../Services/Apis";
 import { toast } from "sonner";
 import Layout from "../Components/Layout";
@@ -66,7 +65,6 @@ export default function TaskList() {
     }
     setLoading(false);
   }
-
 
   async function showEditModal(task) {
     setEditModal(true);
