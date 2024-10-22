@@ -5,18 +5,19 @@ import { userCreateTask } from "../Services/Apis";
 
 export default function CreateModal({ setLoading, setCreateModal }) {
   const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
+  const [description, setDesc] = useState("");
 
   async function createTask() {
     if (title.trim() === "") {
       toast.warning("Add title");
-    } else if (desc.trim() === "") {
+    } else if (description.trim() === "") {
       toast.warning("Add description");
     } else {
       setLoading(true);
-      const response = await userCreateTask({ title, desc });
+      const response = await userCreateTask({ title, description });
       if (response.data) {
         toast.success(`New task created`);
+        setCreateModal(false)
       } else {
         toast.error(`Error creating new task`);
       }
@@ -41,7 +42,7 @@ export default function CreateModal({ setLoading, setCreateModal }) {
           Description
         </label>
         <textarea
-          value={desc}
+          value={description}
           onChange={(e) => setDesc(e.target.value)}
           className="text-sm mb-2 custom-input w-full  px-4 py-2 border border-gray-300 rounded-lg shadow-sm transition duration-300 ease-in-out transform focus:-translate-y-1 focus:outline-blue-300 hover:shadow-lg hover:border-blue-300 bg-gray-100"
           placeholder="Enter text here"

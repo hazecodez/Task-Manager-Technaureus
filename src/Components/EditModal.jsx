@@ -1,11 +1,25 @@
 import PropTypes from "prop-types";
+import { userUpdateTask } from "../Services/Apis";
+import { toast } from "sonner";
 
 export default function EditModal({
   task,
   setEditModal,
-  updateTask,
   setTaskDetails,
+  setLoading,
 }) {
+  async function updateTask() {
+    setLoading(true);
+    const response = await userUpdateTask(task, task.id);
+    if (response.data) {
+      toast.success(`Task updated`);
+      setEditModal(false);
+    } else {
+      toast.error(`Error creating new task`);
+    }
+    setLoading(false);
+  }
+
   const handleInputChange = (field, value) => {
     setTaskDetails((prevTask) => ({
       ...prevTask,
@@ -68,6 +82,6 @@ export default function EditModal({
 EditModal.propTypes = {
   task: PropTypes.object.isRequired,
   setEditModal: PropTypes.func.isRequired,
-  updateTask: PropTypes.func.isRequired,
   setTaskDetails: PropTypes.func.isRequired,
+  setLoading: PropTypes.func.isRequired,
 };

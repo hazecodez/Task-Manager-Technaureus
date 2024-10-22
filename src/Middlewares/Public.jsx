@@ -1,17 +1,18 @@
 import PropTypes from "prop-types";
 import { Navigate } from "react-router-dom";
 
-const Protect = ({ children }) => {
+
+const Public= ({ children }) => {
   const logged = localStorage.getItem("token");
-  if (logged) {
+  if (!logged) {
     return <>{children}</>;
   } else {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 };
 
-export default Protect;
+export default Public;
 
-Protect.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+Public.propTypes = {
+    children: PropTypes.node.isRequired
+}

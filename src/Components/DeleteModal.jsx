@@ -1,7 +1,21 @@
 import PropTypes from "prop-types";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { userDeleteTask } from "../Services/Apis";
+import { toast } from "sonner";
 
-export default function DeleteModal({ deleteTask, task_id, setDeleteModal }) {
+export default function DeleteModal({ setLoading, task_id, setDeleteModal }) {
+  async function deleteTask() {
+    setLoading(true);
+    const response = await userDeleteTask(task_id);
+    if (response) {
+      toast.success("task deleted");
+    } else {
+      toast.error(`Error deleting task`);
+    }
+    setLoading(false);
+    setDeleteModal(false);
+  }
+
   return (
     <div className="absolute inset-0 flex items-center justify-center">
       <div className="group select-none w-[250px] flex flex-col p-4 relative items-center justify-center bg-gray-800 border border-gray-800 shadow-lg rounded-2xl">
@@ -23,7 +37,7 @@ export default function DeleteModal({ deleteTask, task_id, setDeleteModal }) {
               Cancel
             </button>
             <button
-              onClick={() => deleteTask(task_id)}
+              onClick={() => deleteTask()}
               className="bg-red-500 hover:bg-transparent px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-red-500 hover:border-red-500 text-white hover:text-red-500 rounded-full transition ease-in duration-300"
             >
               Confirm
@@ -36,7 +50,7 @@ export default function DeleteModal({ deleteTask, task_id, setDeleteModal }) {
 }
 
 DeleteModal.propTypes = {
-  deleteTask: PropTypes.func.isRequired,
-  task_id: PropTypes.string.isRequired,
+  task_id: PropTypes.number.isRequired,
   setDeleteModal: PropTypes.func.isRequired,
+  setLoading: PropTypes.func.isRequired,
 };

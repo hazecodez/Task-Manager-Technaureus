@@ -4,7 +4,6 @@ import {
   statusFilter,
   userTasks,
   userTaskDetails,
-  userUpdateTask,
   userDeleteTask,
 } from "../Services/Apis";
 import { toast } from "sonner";
@@ -44,7 +43,7 @@ export default function TaskList() {
       setLoading(false);
     }
     fetchTasks();
-  }, []);
+  }, [editModal, deleteModal, createModal]);
 
   async function filteredTasks(status) {
     setLoading(true);
@@ -68,29 +67,18 @@ export default function TaskList() {
     setLoading(false);
   }
 
-  async function updateTask() {
-    setLoading(true);
-    const response = await userUpdateTask(taskDetails, taskDetails.id);
-    if (response.data) {
-      toast.success(`New task created`);
-    } else {
-      toast.error(`Error creating new task`);
-    }
-    setLoading(false);
-  }
-
-  async function deleteTask(task_id) {
-    setLoading(true);
-    const response = await userDeleteTask(task_id);
-    if (response) {
-      toast.success("task deleted");
-      setTasks(tasks.filter((task) => task.id !== task_id));
-    } else {
-      toast.error(`Error deleting task`);
-    }
-    setLoading(false);
-    setDeleteModal(false);
-  }
+  // async function deleteTask(task_id) {
+  //   setLoading(true);
+  //   const response = await userDeleteTask(task_id);
+  //   if (response) {
+  //     toast.success("task deleted");
+  //     setTasks(tasks.filter((task) => task.id !== task_id));
+  //   } else {
+  //     toast.error(`Error deleting task`);
+  //   }
+  //   setLoading(false);
+  //   setDeleteModal(false);
+  // }
 
   async function showEditModal(task) {
     setEditModal(true);
@@ -114,10 +102,21 @@ export default function TaskList() {
         </div>
       )}
       <div className="flex justify-center p-4 gap-2">
-      <Button onClick={()=> setCreateModal(true)} className="flex gap-4 text-md bg-[#dfddd5] hover:bg-gray-700 text-black hover:text-white"> <FaPlus className="text-xl" />Create Task</Button>
-      <Button className="flex gap-4 text-md bg-[#dfddd5] hover:bg-gray-700 text-black hover:text-white"> <FaFilter className="text-xl" />Filter</Button>
+        <Button
+          onClick={() => setCreateModal(true)}
+          className="flex gap-4 text-md bg-[#dfddd5] hover:bg-gray-700 text-black hover:text-white"
+        >
+          {" "}
+          <FaPlus className="text-xl" />
+          Create Task
+        </Button>
+        <Button className="flex gap-4 text-md bg-[#dfddd5] hover:bg-gray-700 text-black hover:text-white">
+          {" "}
+          <FaFilter className="text-xl" />
+          Filter
+        </Button>
       </div>
-      
+
       <Card
         detailsModal={showDetailModal}
         deleteModal={showDeleteModal}
@@ -127,7 +126,7 @@ export default function TaskList() {
 
       {deleteModal && (
         <DeleteModal
-          deleteTask={deleteTask}
+          setLoading={setLoading}
           setDeleteModal={setDeleteModal}
           task_id={taskToDelete}
         />
@@ -141,7 +140,7 @@ export default function TaskList() {
           setEditModal={setEditModal}
           task={taskDetails}
           setTaskDetails={setTaskDetails}
-          updateTask={updateTask}
+          setLoading={setLoading}
         />
       )}
 

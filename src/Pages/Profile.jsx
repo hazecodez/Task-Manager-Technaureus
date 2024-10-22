@@ -8,10 +8,10 @@ import { IoPersonCircleSharp } from "react-icons/io5";
 export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [userDetails, setUserDetails] = useState({
-    username: "rahulraj",
-    email: "rahul@gmail.com",
-    first_name: "Rahul",
-    last_name: "Raj",
+    username: "",
+    email: "",
+    first_name: "",
+    last_name: "",
   });
 
   useEffect(() => {

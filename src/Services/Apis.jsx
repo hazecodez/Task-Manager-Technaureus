@@ -6,7 +6,13 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    if (config && config.url) {
+    if (
+      config &&
+      config.url !== "/login/" &&
+      config.url !== "/register/"
+      // && config.url !== "/logout/" &&
+      // config.url !== " /token/refresh/"
+    ) {
       const token = localStorage.getItem("token");
       if (token) {
         config.headers["Authorization"] = `Bearer ${token}`;
@@ -15,6 +21,49 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+
+    // Check if the error is due to expired access token and the original request has not been retried yet
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      const refreshToken = localStorage.getItem("refresh");
+
+      if (refreshToken) {
+        try {
+          const response = await axiosInstance.post("/token/refresh/", {
+            refresh: refreshToken,
+          });
+
+          const newAccessToken = response.data.access;
+
+          // Update the new token in local storage
+          localStorage.setItem("token", newAccessToken);
+          localStorage.setItem("refresh", response.data.refresh);
+
+          // Update the Authorization header with the new access token
+          axiosInstance.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${newAccessToken}`;
+
+          // Retry the original request with the new token
+          originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+          return axiosInstance(originalRequest);
+        } catch (refreshError) {
+          console.error("Refresh token error: ", refreshError);
+          return Promise.reject(refreshError);
+        }
+      }
+    }
     return Promise.reject(error);
   }
 );
@@ -57,7 +106,7 @@ export async function userTasks() {
 
 export async function userCreateTask(data) {
   try {
-    const response = await axiosInstance.post("/tasks", {data});
+    const response = await axiosInstance.post("/tasks/", data);
     return response;
   } catch (error) {
     console.log("Error creating new task : ", error);
@@ -75,9 +124,7 @@ export async function userTaskDetails(taskId) {
 
 export async function userUpdateTask(data, taskId) {
   try {
-    console.log(taskId);
-    
-    const response = await axiosInstance.put(`/tasks/${taskId}`, data);
+    const response = await axiosInstance.put(`/tasks/${taskId}/`, data);
     return response;
   } catch (error) {
     console.log("Error updating task : ", error);
@@ -104,17 +151,9 @@ export async function statusFilter(task_status) {
 
 export async function userLogout(refresh) {
   try {
-    const response = await axiosInstance.post("/logout", refresh);
+    const response = await axiosInstance.post("/logout/", { refresh });
     return response;
   } catch (error) {
     console.log("Error logout user : ", error);
-  }
-}
-
-export async function refreshToken(refresh) {
-  try {
-    await axiosInstance.post("/token/refresh", refresh);
-  } catch (error) {
-    console.log("Error refreshing token : ", error);
   }
 }
