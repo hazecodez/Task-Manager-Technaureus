@@ -80,6 +80,10 @@ export default function TaskList() {
     fetchTaskDetails(task.id);
   }
 
+  async function showCreatelModal() {
+    setCreateModal(true)
+  }
+
   return (
     <Layout>
       {loading && (
@@ -89,14 +93,14 @@ export default function TaskList() {
       )}
       <div className="flex justify-center p-4 gap-2">
         <Button
-          onClick={() => setCreateModal(true)}
+          onClick={showCreatelModal}
           className="flex gap-4 text-md bg-[#dfddd5] hover:bg-gray-700 text-black hover:text-white"
         >
           {" "}
           <FaPlus className="text-xl" />
           Create Task
         </Button>
-        <Button className="flex gap-4 text-md bg-[#dfddd5] hover:bg-gray-700 text-black hover:text-white">
+        <Button onClick={filteredTasks} className="flex gap-4 text-md bg-[#dfddd5] hover:bg-gray-700 text-black hover:text-white">
           {" "}
           <FaFilter className="text-xl" />
           Filter
