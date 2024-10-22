@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { BeatLoader } from "react-spinners";
-import { statusFilter, userTasks, userTaskDetails } from "../Services/Apis";
+import {
+  statusFilter,
+  userTasks,
+  userTaskDetails,
+  userUpdateTask,
+} from "../Services/Apis";
 import { toast } from "sonner";
 import Layout from "../Components/Layout";
 import Card from "../Components/Card";
@@ -17,7 +22,7 @@ import {
   MenuList,
   Typography,
 } from "@material-tailwind/react";
-import {  FaFilter, FaPlus } from "react-icons/fa";
+import { FaFilter, FaPlus } from "react-icons/fa";
 
 export default function TaskList() {
   const [loading, setLoading] = useState(false);
@@ -34,8 +39,8 @@ export default function TaskList() {
   const [createModal, setCreateModal] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [filterStatus,setFilterStatus] = useState("");
-  const [reload,setReload] = useState(false)
+  const [filterStatus, setFilterStatus] = useState("");
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     async function fetchTasks() {
@@ -49,7 +54,7 @@ export default function TaskList() {
       setLoading(false);
     }
     fetchTasks();
-  }, [editModal, deleteModal, createModal,reload]);
+  }, [editModal, deleteModal, createModal, reload]);
 
   async function filteredTasks(status) {
     setLoading(true);
@@ -71,6 +76,22 @@ export default function TaskList() {
       toast.error(`Error fetching task details`);
     }
     setLoading(false);
+  }
+
+  async function updateStatus(task, taskId) {
+    const updatedTask = {
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      status: !task.status,
+    };
+    const response = await userUpdateTask(updatedTask, taskId);
+    if (response.data) {
+      setReload(!reload);
+      toast.success(`${task.title} updated`);
+    } else {
+      toast.error(`Error creating new task`);
+    }
   }
 
   async function showEditModal(task) {
@@ -125,7 +146,7 @@ export default function TaskList() {
           allowHover={true}
         >
           <MenuHandler className="flex rounded-md gap-4  bg-[#dfddd5] hover:bg-gray-700 text-black hover:text-white">
-            <Typography as="div" variant="small" >
+            <Typography as="div" variant="small">
               <ListItem
                 className="flex items-center gap-2 py-2 pr-4 text-lg font-bold uppercase text-gray-900"
                 selected={isFilterOpen}
@@ -137,10 +158,17 @@ export default function TaskList() {
           </MenuHandler>
           <MenuList className=" w-[240px] rounded-xl lg:block">
             <ul className="grid grid-cols gap-y-2 outline-none outline-0">
-              <a onClick={()=> {filteredTasks("completed"), setFilterStatus("completed")}}>
+              <a
+                onClick={() => {
+                  filteredTasks("completed"), setFilterStatus("completed");
+                }}
+              >
                 <MenuItem className="flex items-center gap-3 rounded-lg">
                   <div className="flex items-center justify-center rounded-lg !bg-blue-gray-50 p-2 ">
-                  <input type="checkbox" checked={filterStatus === "completed"} />
+                    <input
+                      type="checkbox"
+                      checked={filterStatus === "completed"}
+                    />
                   </div>
                   <div>
                     <Typography
@@ -153,13 +181,18 @@ export default function TaskList() {
                   </div>
                 </MenuItem>
               </a>
-              <a onClick={()=> {
-                filteredTasks("pending")
-                setFilterStatus("pending")
-                }}>
+              <a
+                onClick={() => {
+                  filteredTasks("pending");
+                  setFilterStatus("pending");
+                }}
+              >
                 <MenuItem className="flex items-center gap-3 rounded-lg">
                   <div className="flex items-center justify-center rounded-lg !bg-blue-gray-50 p-2 ">
-                  <input type="checkbox" checked={filterStatus === "pending"}/>
+                    <input
+                      type="checkbox"
+                      checked={filterStatus === "pending"}
+                    />
                   </div>
                   <div>
                     <Typography
@@ -212,7 +245,11 @@ export default function TaskList() {
         />
       )}
       {detailModal && (
-        <DetailModal task={taskDetails} setDetailModal={setDetailModal} />
+        <DetailModal
+          task={taskDetails}
+          setDetailModal={setDetailModal}
+          updateStatus={updateStatus}
+        />
       )}
 
       {editModal && (
