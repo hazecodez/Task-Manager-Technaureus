@@ -53,6 +53,6 @@ Start the frontend server
 - Axios: For making API requests.
 - React Router Dom: For handling navigation between pages.
 
-<!-- ## Demo Video
+## Demo Video
 
-You can watch the demo video [here](public/assets/demo.gif). -->
+You can watch the demo video [here](public/assets/demo.gif).
